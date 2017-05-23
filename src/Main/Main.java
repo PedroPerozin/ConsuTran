@@ -5,8 +5,9 @@
  */
 package Main;
 
-import Beans.ListaOperacao;
+import Beans.ListaTransacao;
 import Scheduler.Escalonador;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,21 +21,27 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
    
         
-        ConexaoBD.Recuperador rec = new ConexaoBD.Recuperador();
-        ListaOperacao aux = null;
+        Scheduler.Recuperador rec = new Scheduler.Recuperador();
+        ListaTransacao listaTransacao = new ListaTransacao();
         
         try {
-            aux = rec.getGroup();
+            listaTransacao = rec.getGroup();
         } catch (SQLException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        Escalonador esc = new Escalonador();
-        //esc.Escalonador(aux);
+        ListaTransacao listaEscalonada = new ListaTransacao();
+        ListaTransacao listaEspera = new ListaTransacao();
         
+        Escalonador esc = new Escalonador();
+        esc.escalonador(listaTransacao, listaEscalonada, listaEspera);
+        
+        //listaTransacao.printListaTransacao();
+        listaEscalonada.printListaTransacao();
+        //listaEspera.printListaTransacao();
        
     }
     

@@ -6,7 +6,6 @@
 package Beans;
 
 import static Beans.Bloqueio.UNLOCKED;
-import java.util.LinkedList;
 
 /**
  *
@@ -14,26 +13,29 @@ import java.util.LinkedList;
  */
 public class Dado {
     
+    private String descricao;
+    private int indice;
     
-    private Bloqueio bloqueio;
-    private String itemDado;
-    
-    public Dado(String itemDado){
-        this.itemDado = itemDado;
-        this.bloqueio = UNLOCKED;
+    public Dado(){
     }
-    
-    public void setBloqueio(Bloqueio bloqueio){
-        this.bloqueio = bloqueio;
+
+    public String getDescricao() {
+        return descricao;
     }
-    
-    public Bloqueio getBloqueio(){
-        return this.bloqueio;
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
-    
-    public String getItemDado(){
-        return this.itemDado;
+
+    public int getIndice() {
+        return indice;
     }
+
+    public void setIndice(int indice) {
+        this.indice = indice;
+    }
+
+    
     
     
 }

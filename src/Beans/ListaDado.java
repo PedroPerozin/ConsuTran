@@ -13,29 +13,29 @@ import java.util.LinkedList;
  */
 public class ListaDado {
     
-    private LinkedList<Dado> list;
+    LinkedList<Dado> listaDado;
     
     public ListaDado(){
-        this.list = new LinkedList<>();
-    }
-    
-    public void setDado(Dado dado){
-        this.list.add(dado);
-    }
-    
-    public Dado getDado(int indice){
-        return this.list.get(indice);
-    }
-    
-    public void removeDado(Dado dado){
-        this.list.remove(dado);
+        listaDado = new LinkedList<>();
     }
     
     public int getSize(){
-        return this.list.size();
+        return this.listaDado.size();
     }
     
+    public Dado getDado(int i){
+        return this.listaDado.get(i);
+    }
     
+    public void setDado(Dado dado){
+        this.listaDado.add(dado);
+    }
     
+    public void printListaDado(){
+        for (Dado dado : listaDado) {
+            System.out.print(dado.getDescricao());
+            System.out.println(" - " + dado.getIndice());
+        }
+    }
     
 }
