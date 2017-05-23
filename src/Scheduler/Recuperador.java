@@ -5,8 +5,6 @@
  */
 package Scheduler;
 
-
-import Beans.Bloqueio;
 import Beans.ListaTransacao;
 import Beans.Transacao;
 import ConexaoBD.MinhaConexao;

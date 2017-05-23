@@ -31,6 +31,10 @@ public class ListaDado {
         this.listaDado.add(dado);
     }
     
+    public void removeDado(int i){
+        this.listaDado.remove(i);
+    }
+    
     public void printListaDado(){
         for (Dado dado : listaDado) {
             System.out.print(dado.getDescricao());

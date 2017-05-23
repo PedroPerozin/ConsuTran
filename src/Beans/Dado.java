@@ -5,7 +5,6 @@
  */
 package Beans;
 
-import static Beans.Bloqueio.UNLOCKED;
 
 /**
  *

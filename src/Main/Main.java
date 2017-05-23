@@ -39,8 +39,9 @@ public class Main {
         Escalonador esc = new Escalonador();
         esc.escalonador(listaTransacao, listaEscalonada, listaEspera);
         
+        
         //listaTransacao.printListaTransacao();
-        listaEscalonada.printListaTransacao();
+        //listaEscalonada.printListaTransacao();
         //listaEspera.printListaTransacao();
        
     }
