@@ -31,6 +31,18 @@ public class ListaTransacao {
         return listaTransacao.size();
     }
     
+    public void abort(int indice){
+        for (Transacao transacao : listaTransacao) {
+            if(transacao.getIndice() == indice){
+                this.listaTransacao.remove(indice);
+            }
+        }
+    }
+    
+    public void remove(int indice){
+        this.listaTransacao.remove(indice);
+    }
+    
     
     
     public void printListaTransacao(){
@@ -40,5 +52,20 @@ public class ListaTransacao {
             System.out.println(" " + transacao.dado.getDescricao());
         }
     }
+    
+    public boolean containsTransacao(Transacao transacao){
+        for (Transacao transacao1 : this.listaTransacao) {
+            if(transacao1.getDado().getIndice() == transacao.getIndice())
+                return true;
+        }
+    return false;
+    }
+    
+    public void removeTransacao(Transacao transacao){
+        for (Transacao transacao1 : this.listaTransacao) {
+            
+        }
+    }
+    
     
 }

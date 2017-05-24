@@ -5,6 +5,8 @@
  */
 package Main;
 
+import Beans.Dado;
+import Beans.ListaDado;
 import Beans.ListaTransacao;
 import Scheduler.Escalonador;
 import java.io.IOException;
@@ -22,7 +24,7 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
-   
+        
         
         Scheduler.Recuperador rec = new Scheduler.Recuperador();
         ListaTransacao listaTransacao = new ListaTransacao();

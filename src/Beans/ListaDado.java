@@ -42,4 +42,19 @@ public class ListaDado {
         }
     }
     
+    public boolean containsDado(Dado dado){
+        for (Dado dado1 : listaDado) {
+            if(dado1.equalsIndex(dado))
+                return true;
+        }
+    return false;    
+    }
+    
+    public void removeDado(Dado dado){
+        for (Dado dado1 : this.listaDado) {
+            if(dado1.equalsIndex(dado))
+                this.listaDado.remove(dado);
+        }
+    }
+    
 }

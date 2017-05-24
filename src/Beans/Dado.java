@@ -10,10 +10,10 @@ package Beans;
  *
  * @author jeffersonmantovani
  */
-public class Dado {
+public class Dado{
     
     private String descricao;
-    private int indice;
+    private Integer indice;
     
     public Dado(){
     }
@@ -33,8 +33,21 @@ public class Dado {
     public void setIndice(int indice) {
         this.indice = indice;
     }
+    
+    public boolean equalsDesc(Dado dado){
+        String desc = dado.getDescricao();
+        if(this.descricao.equalsIgnoreCase(desc)){
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean equalsIndex(Dado dado){
+        Integer index = dado.getIndice();
+        if(this.indice == index){
+            return true;
+        }
+        return false;
+    }
 
-    
-    
-    
 }

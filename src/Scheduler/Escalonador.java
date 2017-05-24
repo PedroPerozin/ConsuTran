@@ -6,6 +6,7 @@ import Beans.ListaTransacao;
 import Beans.Transacao;
 import Main.Arquivo;
 import java.io.IOException;
+import static javafx.application.Platform.exit;
 
 public class Escalonador {
 
@@ -13,33 +14,46 @@ public class Escalonador {
     String conteudo;
     ListaDado readers;
     ListaDado writers;
-    int cont;
-    int i, j;
 
     public Escalonador() {
         arquivo = new Arquivo();
         readers = new ListaDado();
         writers = new ListaDado();
     }
-
+    
     public void escalonador(ListaTransacao listaTransacao, ListaTransacao listaEscalonada, ListaTransacao listaEspera) throws IOException {
 
         Transacao transacao;
         Dado dado;
         
 
+        FOR:
         for (int i = 0; i < listaTransacao.getSize(); i++) {
 
             transacao = new Transacao();
             transacao = listaTransacao.getTransacao(i);
             dado = new Dado();
-            dado = listaTransacao.getTransacao(i).getDado();
+            dado = transacao.getDado();
             String conteudo = transacao.getAction() + transacao.getIndice() + transacao.getDado().getDescricao();
 
             if (listaTransacao.getTransacao(i).getAction().charAt(0) == 'B') {
                 listaEscalonada.setTransacao(transacao);
                 arquivo.writer(transacao.getAction() + transacao.getIndice());
             } 
+            
+            else if(listaTransacao.getTransacao(i).getAction().charAt(0) == 'E'){
+                
+                if(!listaEspera.containsTransacao(transacao)){
+                   
+                }
+                
+                else{
+                    
+                }
+                
+                
+                
+            }
             
             else if (listaTransacao.getTransacao(i).getAction().charAt(0) == 'R') {
 
@@ -50,13 +64,13 @@ public class Escalonador {
                 } 
                 
                 else if (readers.getSize() > 0 && writers.getSize() <= 0) {
-                    j = 0;
+                    int j = 0;
                     while (j < readers.getSize()) {
-                        if (readers.getDado(j).getDescricao() == dado.getDescricao()) {
-                            if (readers.getDado(j).getIndice() == dado.getIndice()) {
+                        if (readers.getDado(j).equalsDesc(dado)){
+                            if(readers.getDado(j).equalsIndex(dado)){
                                 listaEscalonada.setTransacao(transacao);
                                 arquivo.writer(conteudo);
-                                System.exit(0);
+                                continue FOR;
                             }
                         }
                         j++;
@@ -67,47 +81,45 @@ public class Escalonador {
                 } 
                 
                 else if (readers.getSize() <= 0 && writers.getSize() > 0) {
-                    j = 0;
+                    int j = 0;
                     while (j < writers.getSize()) {
-                        if (writers.getDado(j).getDescricao() == dado.getDescricao()) {
-                            if (writers.getDado(j).getIndice() == dado.getIndice()) {
+                        if (writers.getDado(j).equalsDesc(dado)){
+                            if(writers.getDado(j).equalsIndex(dado)){
                                 listaEscalonada.setTransacao(transacao);
                                 arquivo.writer(conteudo);
                                 readers.setDado(dado);
-                                System.exit(0);
-                            }
-                            else{
-                                listaEspera.setTransacao(transacao);
-                                System.exit(0);
+                                continue FOR;
                             }
                         }
-                        j++;
+                    j++;
                     }
-                } 
+                    listaEspera.setTransacao(transacao);
+                }
+                 
                 
                 else if (readers.getSize() > 0 && writers.getSize() > 0) {
-                    j = 0;
+                    int j = 0;
                     while (j < readers.getSize()) {
-                        if (readers.getDado(j).getDescricao() == dado.getDescricao()) {
-                            if (readers.getDado(j).getIndice() == dado.getIndice()) {
+                        if (readers.getDado(j).equalsDesc(dado)){
+                            if(readers.getDado(j).equalsIndex(dado)){
                                 listaEscalonada.setTransacao(transacao);
                                 arquivo.writer(conteudo);
-                                System.exit(0);
+                                continue FOR;
                             }
                         }
                         j++;
                     }
                     j = 0;
                     while (j < writers.getSize()) {
-                        if (writers.getDado(j).getDescricao() == dado.getDescricao()) {
-                            if (writers.getDado(j).getIndice() == dado.getIndice()) {
+                        if (writers.getDado(j).equalsDesc(dado)){
+                            if (writers.getDado(j).equalsIndex(dado)) {
                                 listaEscalonada.setTransacao(transacao);
                                 arquivo.writer(conteudo);
-                                System.exit(0);
+                                continue FOR;
                             }
                             else{
                                 listaEspera.setTransacao(transacao);
-                                System.exit(0);
+                                continue FOR;
                             }
                         }
                         j++;
@@ -116,7 +128,7 @@ public class Escalonador {
                     arquivo.writer(conteudo);
                     readers.setDado(dado);
                 }
-            } 
+            }
             
             else if (listaTransacao.getTransacao(i).getAction().charAt(0) == 'W') {
 
@@ -126,17 +138,17 @@ public class Escalonador {
                     writers.setDado(dado);
                 } 
                 else if (writers.getSize() > 0 && readers.getSize() <= 0) {
-                    j = 0;
+                    int j = 0;
                     while (j < writers.getSize()) {
-                        if (writers.getDado(j).getDescricao() == dado.getDescricao()) {
-                            if (writers.getDado(j).getIndice() == dado.getIndice()) {
+                        if (writers.getDado(j).equalsDesc(dado)) {
+                            if (writers.getDado(j).equalsIndex(dado)) {
                                 listaEscalonada.setTransacao(transacao);
                                 arquivo.writer(conteudo);
-                                System.exit(0);
+                                continue FOR;
                             }
                             else{
                             listaEspera.setTransacao(transacao);
-                            System.exit(0);
+                            continue FOR;
                             }
                         }
                         j++;
@@ -147,10 +159,10 @@ public class Escalonador {
                 } 
                 
                 else if (writers.getSize() <= 0 && readers.getSize() > 0) {
-                    cont = 0;
-                    j = 0;
+                    int cont = 0;
+                    int j = 0;
                     while (j < readers.getSize()) {
-                        if (readers.getDado(j).getDescricao() == dado.getDescricao()) {
+                        if (readers.getDado(j).equalsDesc(dado)) {
                             cont++;
                         }
                         j++;
@@ -163,16 +175,16 @@ public class Escalonador {
                     else if (cont ==  1) {
                         j = 0;
                         while (j < readers.getSize()) {
-                            if (readers.getDado(j).getDescricao() == dado.getDescricao()) {
-                                if (readers.getDado(j).getIndice() == dado.getIndice()) {
+                            if (readers.getDado(j).equalsDesc(dado)) {
+                                if (readers.getDado(j).equalsIndex(dado)) {
                                     listaEscalonada.setTransacao(transacao);
                                     arquivo.writer(conteudo);
                                     writers.setDado(dado);
-                                    System.exit(0);
+                                    continue FOR;
                                 }
                                 else{
                                 listaEspera.setTransacao(transacao);
-                                System.exit(0);
+                                continue FOR;
                                 }
                             }
                             j++;
@@ -185,25 +197,25 @@ public class Escalonador {
                 
                 
                 else if (writers.getSize() > 0 && readers.getSize() > 0) {
-                    j = 0;
+                    int j = 0;
                     while (j < writers.getSize()) {
-                        if (writers.getDado(j).getDescricao() == dado.getDescricao()) {
-                            if (writers.getDado(j).getIndice() == dado.getIndice()) {
+                        if (writers.getDado(j).equalsDesc(dado)) {
+                            if (writers.getDado(j).equalsIndex(dado)) {
                                 listaEscalonada.setTransacao(transacao);
                                 arquivo.writer(conteudo);
-                                System.exit(0);
+                                continue FOR;
                             }
                             else{
                                 listaEspera.setTransacao(transacao);
-                                System.exit(0);
+                                continue FOR;
                             }   
                         }
                         j++;
                     }
-                    cont = 0;
+                    int cont = 0;
                     j = 0;
                     while (j < readers.getSize()) {
-                        if (readers.getDado(j).getDescricao() == dado.getDescricao()) {
+                        if (readers.getDado(j).equalsDesc(dado)) {
                             cont++;
                         }
                         j++;
@@ -216,16 +228,16 @@ public class Escalonador {
                     else if (cont == 1) {
                         j = 0;
                         while (j < readers.getSize()) {
-                            if (readers.getDado(j).getDescricao() == dado.getDescricao()) {
-                                if (readers.getDado(j).getIndice() == dado.getIndice()) {
+                            if (readers.getDado(j).equalsDesc(dado)) {
+                                if (readers.getDado(j).equalsIndex(dado)){
                                     listaEscalonada.setTransacao(transacao);
                                     arquivo.writer(conteudo);
                                     writers.setDado(dado);
-                                    System.exit(0);
+                                    continue FOR;
                                 }
                                 else{
-                                listaEspera.setTransacao(transacao);
-                                System.exit(0);
+                                    listaEspera.setTransacao(transacao);
+                                    continue FOR;
                                 }
                             }
                             j++;
@@ -234,12 +246,12 @@ public class Escalonador {
                     else if (cont > 1) {
                         listaEspera.setTransacao(transacao);
                     }
-
                 }
             }
-
         }
-
     }
-
 }
+
+        
+
+    
